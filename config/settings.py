@@ -144,3 +144,7 @@ SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 
 CART_ID = 'cart_in_session'
+
+IAMPORT_KEY = '1878053146841223' # portone에서 발급받은 본인의 REST API 키 입력
+IAMPORT_SECRET = '81Y3ssYL51mllJvWfhO7lftSO7kewVSNzQlDDNouIMHJZDhZqroukj4FOh28om6BK3Tve29PHblA71tz' # portone에서 발급받은 본인의 REST API Secret 입력
+

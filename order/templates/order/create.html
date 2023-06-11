@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Checkout{% endblock %}
+
+{% block script %}
+
+<!-- ajax에서 사용하기 위해 csrf_token 받아옴 -->
+<script type="text/javascript">
+    csrf_token = '{{csrf_token}}';
+    order_create_url = '{% url "orders:order_create_ajax" %}';
+    order_checkout_url = '{% url "orders:order_checkout" %}';
+    order_validation_url = '{% url "orders:order_validation" %}';
+    order_complete_url = '{% url "orders:order_complete" %}';
+</script>
+
+<!-- iamport script 불러옴, iamport document에서 제공 -->
+<script src ="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"
+type="text/javascript"></script>
+
+{% load static %}
+<script src="{% static 'js/checkout.js' %}" type="text/javascript"></script>
+
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <div class="alert alert-info" role="alert">
+            Your Order
+        </div>
+        <ul class="list-group">
+            {% for item in cart %}
+            <li class="list-group-item">
+                {{item.quantity}} * {{item.product.name}}:
+                <span>&#8361;{{item.total_price | floatformat:'0' }}</span>
+            </li>
+            {% endfor %}
+
+            {% if cart.coupon %}
+            <li class="list_group-item">
+                "{{cart.coupon.code}}" ({{cart.coupon.amount}} % off)
+                <span>- &#8361;{{cart.get_total_discount | floatformat:'0' }}</span>
+            </li>
+            {% endif %}
+        </ul>
+
+        <div class="alert alert-success" role="alert">
+            Total: &#8361;{{cart.get_total_price|floatformat:"0"}}
+        </div>
+
+        <!-- form에 class 추가-->
+        <form action="" method="post" class="order-form">
+            {{form.as_p}}
+            {% csrf_token %}
+            <input type="hidden" name="pre_order_id" value="0">
+            <input type="hidden" name="amount" value="{{cart.get_total_price|floatformat:'2'}}">
+            <input type="submit" class="btn btn-primary float-right" value="Place Order">
+        </form>
+
+    </div>
+</div>
+{% endblock %}

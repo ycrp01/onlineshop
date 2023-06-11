@@ -14,8 +14,10 @@ def add_coupon(request):
     form = AddCouponForm(request.POST) # request된 데이터 form에 대입.
     if form.is_valid(): # form의 적절성 검사.
         code = form.cleaned_data['code'] # 입력한 쿠폰 코드 조회.
+
         try:
-            coupon = Coupon.objects.get(code__iexact=code, use_from__lte=now, use_to__gte=now, active=True) # iexact: 대소문자 구분 없이 검색.
+            coupon = Coupon.objects.get(code__iexact=code, use_from__lte=now,
+                                        use_to__gte=now, active=True) # iexact: 대소문자 구분 없이 검색.
             request.session['coupon_id'] = coupon.id
 
         except Coupon.DoesNotExist:

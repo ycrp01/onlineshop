@@ -24,6 +24,7 @@ urlpatterns = [
     path('account/', include('allauth.urls')), # account 구분 후 shop urls 이어져야 함. 순서 구분.
     path('cart/', include('cart.urls')),
     path('coupon/', include('coupon.urls')),
+    path('order/', include('order.urls')),
     path('', include('shop.urls')),
 ]
 
